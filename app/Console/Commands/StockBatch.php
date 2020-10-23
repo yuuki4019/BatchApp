@@ -40,7 +40,10 @@ class StockBatch extends Command
     public function handle()
     {
         echo "Stockテーブルの在庫計算プログラムを実施します","\n";
-        $stocks = Stock::where('item_id', '10001')->get();
+        // $stocks = Stock::where('item_id', '10001')->get();
+        $stocks = Stock::where('item_id', '10001')->value('item_stock');
+        dump($stocks);
+
         $items = ArrivalShipment::where('item_id', '10001')->get();
         $sum = 0;
 
@@ -52,7 +55,7 @@ class StockBatch extends Command
                 $sum -= $item->item_num;
             }
         }
-        $stocks->item_stock = $sum;
+        $stocks = $sum;
         dump($stocks);
         $stocks->save();
 
