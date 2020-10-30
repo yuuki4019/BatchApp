@@ -53,11 +53,15 @@ class StockBatch extends Command
 
             // 配列からitem_idの情報のみを取り出す
             $id = $stock->item_id;
-            dump($id);
+
+            
+            //（追加)再度item_idをキーにstockから取得する必要があります。
+            //そうしないとsaveが反映されません。
+            $_stock = Stock::where('item_id',$id)->first();
+            //(追加)ここまで
 
             // ArrivalShipmentテーブルから本ループで計算するのに必要なデータのみを取り出す
             $items = ArrivalShipment::where('item_id', $id)->get();
-            // dump($items);
 
             // 在庫の計算
             $sum = 0;
@@ -70,9 +74,9 @@ class StockBatch extends Command
                     $sum -= $item->item_num;
                 }
             }
-            $stock->item_stock = $sum;
-            dump($stocks);
-            $stock->save();
+            $_stock->item_stock = $sum;
+
+            $_stock->save();
         }
 
         echo "Stockテーブルの在庫計算プログラムを完了しました", "\n"; 
