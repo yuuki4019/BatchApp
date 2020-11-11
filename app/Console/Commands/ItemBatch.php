@@ -43,7 +43,7 @@ class ItemBatch extends Command
         foreach($items as $item){
         $item->total_price = $item->price * $item->num;
         $item->save();
-    }
+        }
         echo "Itemテーブルの合計金額計算プログラムを完了しました";
-        return 0;
+       
     }}
